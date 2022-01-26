@@ -1,5 +1,7 @@
 # selector-synthesis
 
+![Tests](https://github.com/jmwright/selector-synthesis/actions/workflows/run_tests.yml/badge.svg)
+
 Collection of methods for synthesizing CadQuery selectors for faces, edges and vertices.
 
 Research has already been done on selector synthesis via a decision tree method, and some of the materials from that research is outlined below.
