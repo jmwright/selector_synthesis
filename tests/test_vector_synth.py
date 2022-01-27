@@ -39,3 +39,25 @@ def test_are_vectors_parallel():
     v1 = (1, 1, 0)
     v2 = (2, 5, 0)
     assert(are_vectors_parallel(v1, v2) == False)
+
+
+def test_are_vectors_orthogonal():
+    """
+    Tests the method that determines if two CadQuery Vectors
+    are orthogonal.
+    """
+
+    # Test vectors that are orthogonal
+    v1 = (5, 5, 0)
+    v2 = (-5, 5, 0)
+    assert(are_vectors_orthogonal(v1, v2) == True)
+
+    # Test vectors that are parallel instead of orthogonal
+    v1 = (1, 1, 0)
+    v2 = (2, 2, 0)
+    assert(are_vectors_orthogonal(v1, v2) == False)
+
+    # Test vectors that are neither orthogonal or parallel
+    v1 = (1, 1, 0)
+    v2 = (2, 5, 0)
+    assert(are_vectors_orthogonal(v1, v2) == False)
