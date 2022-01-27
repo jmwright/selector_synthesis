@@ -1,5 +1,5 @@
 import pytest
-from vector_based_synth import *
+from ..vector_based_synth import *
 
 
 def test_to_vector():
