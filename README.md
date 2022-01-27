@@ -1,4 +1,4 @@
-# selector-synthesis
+# selector_synthesis
 
 ![Tests](https://github.com/jmwright/selector-synthesis/actions/workflows/run_tests.yml/badge.svg)
 
