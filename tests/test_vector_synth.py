@@ -1,6 +1,6 @@
 import pytest
 from ..vector_based_synth import *
-
+from ..vector_common import *
 
 def test_to_vector():
     """
