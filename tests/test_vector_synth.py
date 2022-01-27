@@ -61,3 +61,36 @@ def test_are_vectors_orthogonal():
     v1 = (1, 1, 0)
     v2 = (2, 5, 0)
     assert(are_vectors_orthogonal(v1, v2) == False)
+
+
+def test_is_parallel_to_axis():
+    """
+    Tests the wrapper method to check whether or not a given
+    vector is parallel to an axis.
+    """
+
+    # Test parallel vector to X axis
+    v1 = (2, 0, 0)
+    res = is_parallel_to_axis(v1, 'x')
+    assert(res == True)
+
+    # Test parallel vector to Y axis
+    v1 = (0, 2, 0)
+    res = is_parallel_to_axis(v1, 'y')
+    assert(res == True)
+
+    # Test parallel vector to Z axis
+    v1 = (0, 0, 2)
+    res = is_parallel_to_axis(v1, 'z')
+    assert(res == True)
+
+    # Test not parallel to X axis
+    v1 = (1, 0, 0)
+    res = is_parallel_to_axis(v1, 'y')
+    assert(res == False)
+
+    # Test an axis that is not valid
+    v1 = (1, 0, 0)
+    with pytest.raises(Exception) as ex_info:
+        res = is_parallel_to_axis(v1, 'c')
+        assert(ex_info != None)
