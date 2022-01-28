@@ -1,96 +1,72 @@
 import pytest
 from ..vector_based_synth import *
-from ..vector_common import *
 
-def test_to_vector():
+def test_find_min_max_in_axis():
     """
-    Tests the capability of converting tuples and lists
-    to CadQuery Vectors.
+    Tests the more raw form of min-max checking for an axis.
     """
 
-     # Test a tuple
-    v1 = (1, 1, 0)
-    v2 = to_vector(v1)
-    assert(v2 == Vector(1, 1, 0))
+    # Set the test data up for the Z axis
+    min_selected_origin = [0, 0, -10]
+    max_selected_origin = [0, 0, 10]
+    indexed_min_selected_origin = [0, 0, -5]
+    indexed_max_selected_origin = [0, 0, 5]
+    selected_normal = [0, 0, 1]
+    face_origins = [[0, 0, 9], [0, 0, 8], [0, 0, 0], [0, 0, -7], [0, 0, -8], [0, 0, -9], [0, 10, 0]]
+    face_normals = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 1, 0]]
+    axis_index = 2
 
-    # Test a list
-    v1 = [1, 1, 0]
-    v2 = to_vector(v1)
-    assert(v2 == Vector(1, 1, 0))
+    # Test a min, non-indexed selector
+    (is_min, is_max, index) = find_min_max_in_axis(min_selected_origin, selected_normal, face_origins, face_normals, axis_index)
+    assert(is_min == True and is_max == False and index == -1)
 
-    # Test Vector
-    v1 = Vector(1, 1, 0)
-    v2 = to_vector(v1)
-    assert(v2 == v1)
+    # Test a max, non-indexed selector
+    (is_min, is_max, index) = find_min_max_in_axis(max_selected_origin, selected_normal, face_origins, face_normals, axis_index)
+    assert(is_min == False and is_max == True and index == -1)
+
+    # Test an indexed min selector
+    (is_min, is_max, index) = find_min_max_in_axis(indexed_min_selected_origin, selected_normal, face_origins, face_normals, axis_index)
+    assert(is_min == True and is_max == False and index == 3)
+
+    # Test an indexed min selector on the other side of the origin
+    (is_min, is_max, index) = find_min_max_in_axis(indexed_max_selected_origin, selected_normal, face_origins, face_normals, axis_index)
+    assert(is_min == True and is_max == False and index == 4)
+
+    # Test a max selector in the Y axis
+    (is_min, is_max, index) = find_min_max_in_axis([0, 11, 0], [0, 1, 0], face_origins, face_normals, 1)
+    assert(is_min == False and is_max == True and index == -1)
 
 
-def test_are_vectors_parallel():
+def test_synthesize_min_max_face():
     """
-    Tests the method that determines if two CadQuery Vectors
-    are parallel.
-    """
-
-    # Test vectors that are parallel
-    v1 = (1, 1, 0)
-    v2 = (2, 2, 0)
-    assert(are_vectors_parallel(v1, v2) == True)
-
-    # Test vectors that are not parallel
-    v1 = (1, 1, 0)
-    v2 = (2, 5, 0)
-    assert(are_vectors_parallel(v1, v2) == False)
-
-
-def test_are_vectors_orthogonal():
-    """
-    Tests the method that determines if two CadQuery Vectors
-    are orthogonal.
+    Test the string synthesis of the min-max selector.
     """
 
-    # Test vectors that are orthogonal
-    v1 = (5, 5, 0)
-    v2 = (-5, 5, 0)
-    assert(are_vectors_orthogonal(v1, v2) == True)
+    # Set the test data up for the Z axis
+    min_selected_origin = [0, 0, -10]
+    max_selected_origin = [0, 0, 10]
+    indexed_min_selected_origin = [0, 0, -5]
+    indexed_max_selected_origin = [0, 0, 5]
+    selected_normal = [0, 0, 1]
+    face_origins = [[0, 0, 9], [0, 0, 8], [0, 0, 0], [0, 0, -7], [0, 0, -8], [0, 0, -9], [0, 10, 0]]
+    face_normals = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 1, 0]]
 
-    # Test vectors that are parallel instead of orthogonal
-    v1 = (1, 1, 0)
-    v2 = (2, 2, 0)
-    assert(are_vectors_orthogonal(v1, v2) == False)
+    # Test a min, non-indexed selector
+    sel = synthesize_min_max_face_selector([min_selected_origin], [selected_normal], face_origins, face_normals)
+    assert(sel == '.faces("<Z")')
 
-    # Test vectors that are neither orthogonal or parallel
-    v1 = (1, 1, 0)
-    v2 = (2, 5, 0)
-    assert(are_vectors_orthogonal(v1, v2) == False)
+    # Test a max, non-indexed selector
+    sel = synthesize_min_max_face_selector([max_selected_origin], [selected_normal], face_origins, face_normals)
+    assert(sel == '.faces(">Z")')
 
+    # Test an indexed min selector
+    sel = synthesize_min_max_face_selector([indexed_min_selected_origin], [selected_normal], face_origins, face_normals)
+    assert(sel == '.faces("<Z[3]")')
 
-def test_is_parallel_to_axis():
-    """
-    Tests the wrapper method to check whether or not a given
-    vector is parallel to an axis.
-    """
+    # Test an indexed min selector on the other side of the origin
+    sel = synthesize_min_max_face_selector([indexed_max_selected_origin], [selected_normal], face_origins, face_normals)
+    assert(sel == '.faces("<Z[4]")')
 
-    # Test parallel vector to X axis
-    v1 = (2, 0, 0)
-    res = is_parallel_to_axis(v1, 'x')
-    assert(res == True)
-
-    # Test parallel vector to Y axis
-    v1 = (0, 2, 0)
-    res = is_parallel_to_axis(v1, 'y')
-    assert(res == True)
-
-    # Test parallel vector to Z axis
-    v1 = (0, 0, 2)
-    res = is_parallel_to_axis(v1, 'z')
-    assert(res == True)
-
-    # Test not parallel to X axis
-    v1 = (1, 0, 0)
-    res = is_parallel_to_axis(v1, 'y')
-    assert(res == False)
-
-    # Test an axis that is not valid
-    v1 = (1, 0, 0)
-    with pytest.raises(Exception) as ex_info:
-        res = is_parallel_to_axis(v1, 'c')
-        assert(ex_info != None)
+    # Test a max selector in a different axis
+    sel = synthesize_min_max_face_selector([[0, 11, 0]], [[0, 1, 0]], face_origins, face_normals)
+    assert(sel == '.faces(">Y")')

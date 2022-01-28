@@ -28,8 +28,6 @@ def are_vectors_parallel(v1, v2):
 	if cross_prod == Vector(0.0, 0.0, 0.0):
 		are_parallel = True
 
-	print(cross_prod)
-
 	return are_parallel
 
 
