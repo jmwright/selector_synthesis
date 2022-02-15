@@ -1,7 +1,7 @@
 from .vector_common import *
 
 
-def synthesize(selected_origins, selected_normals, face_origins, face_normals):
+def synthesize(selected_origins, selected_normals, face_origins, face_normals, selected_meta, face_meta):
 	"""
 	Handles the high level work of calling the correct type of synthesizer.
 	"""
@@ -9,13 +9,13 @@ def synthesize(selected_origins, selected_normals, face_origins, face_normals):
 	selector_str = None
 
 	# We handle a single selected face differently than multiple selected faces
-	if len(selected_origins) == 1:
-		selector_str = synthesize_min_max_face_selector(selected_origins, selected_normals, face_origins, face_normals)
+	if len(selected_origins) == 1 and selected_meta[0]['is_planar']:
+		selector_str = synthesize_min_max_face_selector(selected_origins, selected_normals, face_origins, face_normals, face_meta)
 
 	return selector_str
 
 
-def find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_normals, axis_index):
+def find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_normals, face_meta, axis_index):
 	"""
 	Determines whether a face is a maximum or minimum in a given axis, including whether it is
 	an indexed max or min.
@@ -29,6 +29,10 @@ def find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_no
 
 	# Step through all the faces and check for a max or min condition
 	for i in range(0, len(face_origins)):
+		# Check to make sure this face is planar
+		if not face_meta[i]['is_planar']:
+			continue
+
 		# Check if the selected and current face normals are aligned
 		if are_vectors_parallel(selected_normal, face_normals[i]):
 			# Save the distance for the current face away from the origin
@@ -83,7 +87,7 @@ def find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_no
 	return (is_min, is_max, selected_index)
 
 
-def synthesize_min_max_face_selector(selected_origins, selected_normals, face_origins, face_normals):
+def synthesize_min_max_face_selector(selected_origins, selected_normals, face_origins, face_normals, face_meta):
 	"""
 	Synthesizes an indexed min/max selector given a list of face origins and normals.
 	"""
@@ -112,7 +116,7 @@ def synthesize_min_max_face_selector(selected_origins, selected_normals, face_or
 	# Check to see if the selected face is aligned with an axis
 	if axis_index > -1:
 		# See if the face is either the minimum or maximum in this axis
-		(is_min, is_max, index) = find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_normals, axis_index)
+		(is_min, is_max, index) = find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_normals, face_meta, axis_index)
 
 		# The max/min filter string
 		if is_min == True:
