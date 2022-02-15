@@ -9,7 +9,7 @@ def synthesize(selected_origins, selected_normals, face_origins, face_normals):
 	selector_str = None
 
 	# We handle a single selected face differently than multiple selected faces
-	if len(face_origins) == 1:
+	if len(selected_origins) == 1:
 		selector_str = synthesize_min_max_face_selector(selected_origins, selected_normals, face_origins, face_normals)
 
 	return selector_str
