@@ -60,7 +60,7 @@ def find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_no
 	if is_min == None:
 		is_min = False
 
-	selected_index = -1
+	selected_index = None
 	i = 0
 	# Step through and look for the selected face in the stack of filtered faces
 	for dist in sorted(dist_face_map):
@@ -80,9 +80,13 @@ def find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_no
 
 	# Cover the case of the index being a true max or min, in which case you do not need an index
 	if selected_index == 0 or selected_index == len(dist_face_map) - 1:
-		selected_index = -1
+		selected_index = None
 	else:
 		is_min = True
+
+	# Because of the way CadQuery selector indexing works, we have to make the index negative
+	if selected_index != None:
+		selected_index = -selected_index
 
 	return (is_min, is_max, selected_index)
 
@@ -125,7 +129,7 @@ def synthesize_min_max_face_selector(selected_origins, selected_normals, face_or
 			filter_str = ">"
 
 		# Use the index, if there is one
-		if index != -1:
+		if index != None:
 			index_str = "[" + str(index) + "]"
 
 		# Format the selector string properly
