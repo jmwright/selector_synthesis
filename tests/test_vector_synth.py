@@ -45,11 +45,11 @@ def test_find_min_max_in_axis():
 
     # Test an indexed min selector
     (is_min, is_max, index) = find_min_max_in_axis(indexed_min_selected_origin, selected_normal, face_origins, face_normals, face_meta, axis_index)
-    assert(is_min == True and is_max == False and index == -3)
+    assert(is_min == True and is_max == False and index == -4)
 
     # Test an indexed min selector on the other side of the origin
     (is_min, is_max, index) = find_min_max_in_axis(indexed_max_selected_origin, selected_normal, face_origins, face_normals, face_meta, axis_index)
-    assert(is_min == True and is_max == False and index == -4)
+    assert(is_min == True and is_max == False and index == -5)
 
     # Test a max selector in the Y axis
     (is_min, is_max, index) = find_min_max_in_axis([0, 11, 0], [0, 1, 0], face_origins, face_normals, face_meta, 1)
@@ -58,12 +58,12 @@ def test_find_min_max_in_axis():
     # Test with multiple non-planar faces
     face_meta_2 = [{'is_planar': False}, {'is_planar': True}, {'is_planar': True}, {'is_planar': False}, {'is_planar': True}, {'is_planar': True}, {'is_planar': True}]
     (is_min, is_max, index) = find_min_max_in_axis(indexed_min_selected_origin, selected_normal, face_origins, face_normals, face_meta_2, axis_index)
-    assert(is_min == True and is_max == False and index == -2)
+    assert(is_min == True and is_max == False and index == -3)
 
     # Check a face with other planar faces at the same distance away from the origin
     face_origins_2 = [[0, 0, 9], [0, 0, 8], [0, 0, 5], [0, 0, -7], [0, 0, -8], [0, 0, -9], [0, 10, 0]]
     (is_min, is_max, index) = find_min_max_in_axis(indexed_max_selected_origin, selected_normal, face_origins_2, face_normals, face_meta, axis_index)
-    assert(is_min == True and is_max == False and index == -3)
+    assert(is_min == True and is_max == False and index == -4)
 
 
 def test_synthesize_min_max_face():
@@ -91,11 +91,11 @@ def test_synthesize_min_max_face():
 
     # Test an indexed min selector
     sel = synthesize_min_max_face_selector([indexed_min_selected_origin], [selected_normal], face_origins, face_normals, face_meta)
-    assert(sel == '.faces("<Z[-3]")')
+    assert(sel == '.faces("<Z[-4]")')
 
     # Test an indexed min selector on the other side of the origin
     sel = synthesize_min_max_face_selector([indexed_max_selected_origin], [selected_normal], face_origins, face_normals, face_meta)
-    assert(sel == '.faces("<Z[-4]")')
+    assert(sel == '.faces("<Z[-5]")')
 
     # Test a max selector in a different axis
     sel = synthesize_min_max_face_selector([[0, 11, 0]], [[0, 1, 0]], face_origins, face_normals, face_meta)
@@ -104,4 +104,4 @@ def test_synthesize_min_max_face():
     # Test an indexed face with non-planar other faces
     face_meta = [{'is_planar': False}, {'is_planar': True}, {'is_planar': True}, {'is_planar': False}, {'is_planar': True}, {'is_planar': True}, {'is_planar': True}]
     sel = synthesize_min_max_face_selector([indexed_min_selected_origin], [selected_normal], face_origins, face_normals, face_meta)
-    assert(sel == '.faces("<Z[-2]")')
+    assert(sel == '.faces("<Z[-3]")')

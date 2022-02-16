@@ -91,6 +91,7 @@ def find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_no
 
 	# Because of the way CadQuery selector indexing works, we have to make the index negative
 	if selected_index != None:
+		selected_index += 1
 		selected_index = -selected_index
 
 	return (is_min, is_max, selected_index)
