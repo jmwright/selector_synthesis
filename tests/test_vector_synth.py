@@ -56,9 +56,14 @@ def test_find_min_max_in_axis():
     assert(is_min == False and is_max == True and index == None)
 
     # Test with multiple non-planar faces
-    face_meta = [{'is_planar': False}, {'is_planar': True}, {'is_planar': True}, {'is_planar': False}, {'is_planar': True}, {'is_planar': True}, {'is_planar': True}]
-    (is_min, is_max, index) = find_min_max_in_axis(indexed_min_selected_origin, selected_normal, face_origins, face_normals, face_meta, axis_index)
+    face_meta_2 = [{'is_planar': False}, {'is_planar': True}, {'is_planar': True}, {'is_planar': False}, {'is_planar': True}, {'is_planar': True}, {'is_planar': True}]
+    (is_min, is_max, index) = find_min_max_in_axis(indexed_min_selected_origin, selected_normal, face_origins, face_normals, face_meta_2, axis_index)
     assert(is_min == True and is_max == False and index == -2)
+
+    # Check a face with other planar faces at the same distance away from the origin
+    face_origins_2 = [[0, 0, 9], [0, 0, 8], [0, 0, 5], [0, 0, -7], [0, 0, -8], [0, 0, -9], [0, 10, 0]]
+    (is_min, is_max, index) = find_min_max_in_axis(indexed_max_selected_origin, selected_normal, face_origins_2, face_normals, face_meta, axis_index)
+    assert(is_min == True and is_max == False and index == -3)
 
 
 def test_synthesize_min_max_face():
