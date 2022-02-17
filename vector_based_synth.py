@@ -37,7 +37,7 @@ def find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_no
 		if are_vectors_parallel(selected_normal, face_normals[i]):
 			# Check to see if this distance has already been added
 			if face_origins[i][axis_index] not in dist_face_map:
-				dist_face_map[face_origins[i][axis_index]] = i
+				dist_face_map[face_origins[i][axis_index]] = len(dist_face_map)
 
 			# Check to see if the face is the maximum along the axis
 			if selected_origin[axis_index] > face_origins[i][axis_index]:
