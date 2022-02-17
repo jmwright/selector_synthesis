@@ -65,6 +65,11 @@ def test_find_min_max_in_axis():
     (is_min, is_max, index) = find_min_max_in_axis(indexed_max_selected_origin, selected_normal, face_origins_2, face_normals, face_meta, axis_index)
     assert(is_min == True and is_max == False and index == -4)
 
+    # Check a max face with other planar faces that are on the same level
+    face_origins_3 = [[0, 0, 4], [0, 0, 1], [0, 0, 0], [0, 0, 7], [0, 0, 4], [0, 0, 4], [0, 10, 0]]
+    (is_min, is_max, index) = find_min_max_in_axis(max_selected_origin, selected_normal, face_origins_3, face_normals, face_meta, axis_index)
+    assert(is_min == False and is_max == True and index == None)
+
 
 def test_synthesize_min_max_face():
     """
