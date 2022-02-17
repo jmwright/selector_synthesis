@@ -33,15 +33,11 @@ def find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_no
 		if not face_meta[i]['is_planar']:
 			continue
 
-		# If the current face has the same maximum, ignore it
-		if selected_origin[axis_index] == face_origins[i][axis_index]:
-			if is_max != None or is_min != None:
-				continue
-
 		# Check if the selected and current face normals are aligned
 		if are_vectors_parallel(selected_normal, face_normals[i]):
-			# Save the distance for the current face away from the origin
-			dist_face_map[face_origins[i][axis_index]] = i
+			# Check to see if this distance has already been added
+			if face_origins[i][axis_index] not in dist_face_map:
+				dist_face_map[face_origins[i][axis_index]] = i
 
 			# Check to see if the face is the maximum along the axis
 			if selected_origin[axis_index] > face_origins[i][axis_index]:
