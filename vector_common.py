@@ -67,3 +67,24 @@ def is_parallel_to_axis(vec, axis):
         raise Exception("{} is not a valid axis. Must be 'X', 'Y', or 'Z'.".format(axis))
 
     return are_vectors_parallel(vec, axis_vec)
+
+
+def is_orthogonal_to_axis(vec, axis):
+	"""
+	Determines whether or not a given vector is orthogonal to the specified
+	axis.
+	"""
+	axis_vec = Vector(0, 0, 0)
+
+	vec = to_vector(vec)
+
+	if axis.upper() == 'X':
+		axis_vec = Vector(1, 0, 0)
+	elif axis.upper() == 'Y':
+		axis_vec = Vector(0, 1, 0)
+	elif axis.upper() == 'Z':
+		axis_vec = Vector(0, 0, 1)
+	else:
+		raise Exception("{} is not a valid axis. Must be 'X', 'Y', or 'Z'.".format(axis))
+
+	return are_vectors_orthogonal(vec, axis_vec)

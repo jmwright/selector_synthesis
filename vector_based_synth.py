@@ -143,3 +143,45 @@ def synthesize_min_max_face_selector(selected_origins, selected_normals, face_or
 		selector_str = None
 
 	return selector_str
+
+
+def synthesize_edge_selector(selected_edges, selected_edge_types, selected_edge_starts, selected_edge_ends, selected_normals):
+	"""
+	Synthesizes an edge selector string based on what edges were selected.
+	"""
+
+	selector_str = None
+	axis_str = None
+	axis_filter = None
+	# axis_index = None
+
+	# Protect against there being no edges to check against
+	if len(selected_edges) == 0:
+		return None
+
+    # Find the vector of the edge
+	edge_start = selected_edge_starts[0]
+	edge_end = selected_edge_ends[0]
+	edge_vector = tuple(map(lambda i, j: i - j, edge_end, edge_start))
+
+	# TODO: Need to check if the types of all selected edges are the same
+	if selected_edge_types[0] == "LINE":
+		# TODO: Create the vector of the line edge to see if it is parallel to an axis
+		if is_parallel_to_axis(edge_vector, 'X'):
+			axis_str = 'X'
+			axis_filter = "|"
+			# axis_index = 0
+		elif is_parallel_to_axis(edge_vector, 'Y'):
+			axis_str = 'Y'
+			axis_filter = "|"
+			# axis_index = 1
+		elif is_parallel_to_axis(edge_vector, 'Z'):
+			axis_str = 'Z'
+			axis_filter = "|"
+			# axis_index = 2
+
+	# Combine the axis string and axis filters
+	if axis_str != None and axis_filter != None:
+		selector_str = '.edges("' + axis_filter + axis_str + '")'
+
+	return selector_str

@@ -110,3 +110,18 @@ def test_synthesize_min_max_face():
     face_meta = [{'is_planar': False}, {'is_planar': True}, {'is_planar': True}, {'is_planar': False}, {'is_planar': True}, {'is_planar': True}, {'is_planar': True}]
     sel = synthesize_min_max_face_selector([indexed_min_selected_origin], [selected_normal], face_origins, face_normals, face_meta)
     assert(sel == '.faces("<Z[-3]")')
+
+
+def test_synthesize_edge_selector():
+    """
+    Tests the ability to synthesize an edge selector given information about
+    selected edge(s).
+    """
+    selected_edges = ["edge_1234"]
+    selected_edge_types = ["LINE"]
+    selected_edge_starts = [(5, -5, 5)]
+    selected_edge_ends = [(5, 5, 5)]
+    selected_edge_normals = [(0, 0, 1)]
+
+    sel = synthesize_edge_selector(selected_edges, selected_edge_types, selected_edge_starts, selected_edge_ends, selected_edge_normals)
+    assert(sel == '.edges("|Y")')
