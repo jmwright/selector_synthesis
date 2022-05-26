@@ -24,6 +24,8 @@ def synthesize(
         selector_str = synthesize_edge_selector(
             kwargs
         )
+    else:
+        print("Unrecognized selector type {}".format(selector_type))
 
     return selector_str
 
