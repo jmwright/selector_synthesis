@@ -14,8 +14,8 @@ def test_synthesize_min_non_indexed_face():
     selector = '.faces("|Z and <Z")'
 
     # Set up the variables based on real world model data
-    selected_origin = [-6.93889390390723e-18, 6.66133814775094e-17, -5.0]
-    selected_normal = [-0.0, -0.0, -1.0]
+    selected_origin = [(-6.93889390390723e-18, 6.66133814775094e-17, -5.0)]
+    selected_normal = [(-0.0, -0.0, -1.0)]
     selected_meta = [{"is_planar": True}]
     face_origins = [
         (-5.0, 2.2204460492503135e-17, -6.93889390390723e-18),
@@ -42,8 +42,8 @@ def test_synthesize_min_non_indexed_face():
     # Synthesize the selector
     sel = synthesize(
         "Face",
-        selected_origin=[selected_origin],
-        selected_normal=[selected_normal],
+        selected_origin=selected_origin,
+        selected_normal=selected_normal,
         selected_meta=selected_meta,
         face_origins=face_origins,
         face_normals=face_normals,
@@ -64,8 +64,8 @@ def test_synthesize_max_non_indexed_face():
     selector = '.faces("|Z and >Z")'
 
     # Set up the variables based on real world model data
-    selected_origin = [-6.93889390390723e-18, 6.66133814775094e-17, 5.0]
-    selected_normal = [0.0, 0.0, 1.0]
+    selected_origin = [(-6.93889390390723e-18, 6.66133814775094e-17, 5.0)]
+    selected_normal = [(0.0, 0.0, 1.0)]
     selected_meta = [{"is_planar": True}]
     face_origins = [
         (-5.0, 2.2204460492503135e-17, -6.93889390390723e-18),
@@ -92,8 +92,8 @@ def test_synthesize_max_non_indexed_face():
     # Synthesize the selector
     sel = synthesize(
         "Face",
-        selected_origin=[selected_origin],
-        selected_normal=[selected_normal],
+        selected_origin=selected_origin,
+        selected_normal=selected_normal,
         selected_meta=selected_meta,
         face_origins=face_origins,
         face_normals=face_normals,
@@ -115,8 +115,8 @@ def test_synthesize_non_planar_indexed_faces():
     selector = '.faces("|Z and <Z[-1]")'
 
     # Set up the variables based on real world model data
-    selected_origin = [4.440892098500626e-16, -5.921189464667638e-17, -1.5]
-    selected_normal = [-0.0, -0.0, -1.0]
+    selected_origin = [(4.440892098500626e-16, -5.921189464667638e-17, -1.5)]
+    selected_normal = [(-0.0, -0.0, -1.0)]
     selected_meta = [{"is_planar": True}]
     face_origins = [
         (-5.0, -3.3901604935095317, 2.971049450155019e-17),
@@ -157,8 +157,8 @@ def test_synthesize_non_planar_indexed_faces():
 
     sel = synthesize(
         "Face",
-        selected_origin=[selected_origin],
-        selected_normal=[selected_normal],
+        selected_origin=selected_origin,
+        selected_normal=selected_normal,
         selected_meta=selected_meta,
         face_origins=face_origins,
         face_normals=face_normals,
@@ -180,8 +180,8 @@ def test_synthesize_cbore_hole_face():
     selector = '.faces("|Z and <Z[-2]")'
 
     # Set up the variables based on real world model data
-    selected_origin = [-2.220446049250313e-16, -3.82705867764668e-16, 1.0]
-    selected_normal = [-0.0, -0.0, 1.0]
+    selected_origin = [(-2.220446049250313e-16, -3.82705867764668e-16, 1.0)]
+    selected_normal = [(-0.0, -0.0, 1.0)]
     selected_meta = [{"is_planar": True}]
     face_origins = [
         (-5.0, 2.2204460492503135e-17, -6.93889390390723e-18),
@@ -216,8 +216,8 @@ def test_synthesize_cbore_hole_face():
 
     sel = synthesize(
         "Face",
-        selected_origin=[selected_origin],
-        selected_normal=[selected_normal],
+        selected_origin=selected_origin,
+        selected_normal=selected_normal,
         selected_meta=selected_meta,
         face_origins=face_origins,
         face_normals=face_normals,
