@@ -30,10 +30,8 @@ def test_synthesize_min_non_indexed_face():
         (-0.0, -1.0, -0.0),
         (0.0, 1.0, 0.0),
         (-0.0, -0.0, -1.0),
-        (0.0, 0.0, 1.0),
     ]
     face_meta = [
-        {"is_planar": True},
         {"is_planar": True},
         {"is_planar": True},
         {"is_planar": True},
@@ -82,10 +80,8 @@ def test_synthesize_max_non_indexed_face():
         (-0.0, -1.0, -0.0),
         (0.0, 1.0, 0.0),
         (-0.0, -0.0, -1.0),
-        (0.0, 0.0, 1.0),
     ]
     face_meta = [
-        {"is_planar": True},
         {"is_planar": True},
         {"is_planar": True},
         {"is_planar": True},
