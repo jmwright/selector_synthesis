@@ -1,9 +1,7 @@
 from .vector_common import *
 
 
-def synthesize(
-    selector_type, **kwargs
-):
+def synthesize(selector_type, **kwargs):
     """
     Handles the high level work of calling the correct type of synthesizer.
     """
@@ -17,13 +15,9 @@ def synthesize(
             len(kwargs["selected_origin"]) == 1
             and kwargs["selected_meta"][0]["is_planar"]
         ):
-            selector_str = synthesize_min_max_face_selector(
-                kwargs
-            )
+            selector_str = synthesize_min_max_face_selector(kwargs)
     elif selector_type == "Edge":
-        selector_str = synthesize_edge_selector(
-            kwargs
-        )
+        selector_str = synthesize_edge_selector(kwargs)
     else:
         print("Unrecognized selector type {}".format(selector_type))
 
@@ -47,14 +41,14 @@ def find_min_max_in_axis(
     # Step through all the faces and check for a max or min condition
     for i in range(0, len(face_origins)):
         # Check to make sure this face is planar
-        if not face_meta[i]["is_planar"]:
-            continue
+        # if not face_meta[i]["is_planar"]:
+        #     continue
 
         # Check if the selected and current face normals are aligned
-        # if are_vectors_parallel(selected_normal, face_normals[i]):
-        # Check to see if this distance has already been added
-        if face_origins[i][axis_index] not in dist_face_map:
-            dist_face_map[face_origins[i][axis_index]] = len(dist_face_map)
+        if are_vectors_parallel(selected_normal, face_normals[i]):
+            # Check to see if this distance has already been added
+            if face_origins[i][axis_index] not in dist_face_map:
+                dist_face_map[face_origins[i][axis_index]] = len(dist_face_map)
 
         # Check to see if the face is the maximum along the axis
         if selected_origin[axis_index] > face_origins[i][axis_index]:
@@ -103,20 +97,18 @@ def find_min_max_in_axis(
 
     # Because of the way CadQuery selector indexing works, we have to make the index negative
     if selected_index != None:
-        # selected_index += 1
+        selected_index += 1
         selected_index = -selected_index
 
     return (is_min, is_max, selected_index)
 
 
-def synthesize_min_max_face_selector(
-    sel_data,
-):
+def synthesize_min_max_face_selector(sel_data,):
     """
     Synthesizes an indexed min/max selector given a list of face origins and normals.
     """
 
-    selector_str = '.faces("|{axis} and {filter}{axis}{index}")'
+    selector_str = '.faces("|{axis}").faces("{filter}{axis}{index}")'
     axis_index = -1
     axis_str = ""
     filter_str = ""
@@ -172,9 +164,7 @@ def synthesize_min_max_face_selector(
     return selector_str
 
 
-def synthesize_edge_selector(
-    sel_data,
-):
+def synthesize_edge_selector(sel_data,):
     """
     Synthesizes an edge selector string based on what edges were selected.
     """
