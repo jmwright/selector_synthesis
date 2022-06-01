@@ -396,14 +396,37 @@ def test_synthesize_edge_selector():
     )
     assert sel == '.edges("|Y")'
 
-    # Test a circular edge
-    # selected_edge_types = ["CIRCLE"]
-    # selected_edge_starts = [(5, 5, 5)]
-    # selected_edge_ends = [(5, 5, 5)]
-    # selected_edge_normals = [(0, 0, 1)]
 
-    # sel = synthesize_edge_selector(selected_edges, selected_edge_types, selected_edge_starts, selected_edge_ends, selected_edge_normals, other_edge_starts, other_edge_ends, other_edge_meta, other_normals)
-    # assert(sel == '.edges(">Z")')
+def test_synthesize_circle_edge_selector():
+    """
+    Tests the ability to synthesize an edge selector given information about
+    the selected circular edge.
+    """
+
+    # Test a circular edge
+    selected_edges = ["edge_1234"]
+    selected_edge_types = ["CIRCLE"]
+    selected_edge_starts = [(5, 5, 5)]
+    selected_edge_ends = [(5, 5, 5)]
+    selected_edge_normals = [(0, 0, 1)]
+    other_edge_starts = [(0, 0, 0), (0, 0, 1)]
+    other_edge_ends = [(0, 0, 0), (0, 0, 1)]
+    other_edge_meta = [{}]
+    other_normals = [(0, 1, 0), (0, 0, 1)]
+
+    sel = synthesize(
+        "Edge",
+        selected_edges=selected_edges,
+        selected_edge_types=selected_edge_types,
+        selected_edge_starts=selected_edge_starts,
+        selected_edge_ends=selected_edge_ends,
+        selected_edge_normals=selected_edge_normals,
+        other_edge_starts=other_edge_starts,
+        other_edge_ends=other_edge_ends,
+        other_edge_meta=other_edge_meta,
+        other_normals=other_normals,
+    )
+    assert sel == '.edges(">Z")'
 
 
 # Other potential face selector test cases

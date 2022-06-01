@@ -205,28 +205,35 @@ def synthesize_edge_selector(sel_data,):
             # axis_index = 2
     if sel_data["selected_edge_types"][0] == "CIRCLE":
         # Compare the vector of the line edge to see if it is parallel to an axis
-        if is_parallel_to_axis(selected_normals[0], "X"):
+        if is_parallel_to_axis(sel_data["selected_edge_normals"][0], "X"):
             axis_str = "X"
             axis_index = 0
-        elif is_parallel_to_axis(selected_normals[0], "Y"):
+        elif is_parallel_to_axis(sel_data["selected_edge_normals"][0], "Y"):
             axis_str = "Y"
             axis_index = 1
-        elif is_parallel_to_axis(selected_normals[0], "Z"):
+        elif is_parallel_to_axis(sel_data["selected_edge_normals"][0], "Z"):
             axis_str = "Z"
             axis_index = 2
 
         # find_min_max_in_axis(selected_origin, selected_normal, face_origins, face_normals, face_meta, axis_index)
-        # (is_min, is_max, index) = find_min_max_in_axis(selected_edge_starts, selected_normals, other_edge_starts, other_normals, other_edge_meta, axis_index)
+        (is_min, is_max, index) = find_min_max_in_axis(
+            edge_start,
+            sel_data["selected_edge_normals"][0],
+            sel_data["other_edge_starts"],
+            sel_data["other_normals"],
+            sel_data["other_edge_meta"],
+            axis_index,
+        )
 
-        #  # The max/min filter string
-        # if is_min == True:
-        #     filter_str = "<"
-        # elif is_max == True:
-        #     filter_str = ">"
+        ## The max/min filter string
+        if is_min == True:
+            axis_filter = "<"
+        elif is_max == True:
+            axis_filter = ">"
 
-        # # Use the index, if there is one
-        # if index != None:
-        #     index_str = "[" + str(index) + "]"
+        # Use the index, if there is one
+        if index != None:
+            index_str = "[" + str(index) + "]"
 
     # Format the selector string properly
     if axis_str != None and axis_filter != None:
