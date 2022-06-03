@@ -50,28 +50,6 @@ def find_min_max_in_axis(
             if face_origins[i][axis_index] not in dist_face_map:
                 dist_face_map[face_origins[i][axis_index]] = len(dist_face_map)
 
-        # Check to see if the face is the maximum along the axis
-        if selected_origin[axis_index] > face_origins[i][axis_index]:
-            # Keep from overriding other faces that were already more maximal
-            if is_max == None:
-                is_max = True
-        else:
-            is_max = False
-
-        # Check to see if the face is the minimum along the axis
-        if selected_origin[axis_index] < face_origins[i][axis_index]:
-            # Keep from overriding other faces that were already more minimal
-            if is_min == None:
-                is_min = True
-        else:
-            is_min = False
-
-    # If the max and/or min are still None, then the face is not the max/min
-    if is_max == None:
-        is_max = False
-    if is_min == None:
-        is_min = False
-
     selected_index = None
     i = 0
     # Step through and look for the selected face in the stack of filtered faces
@@ -82,23 +60,22 @@ def find_min_max_in_axis(
 
         i += 1
 
-    # Handle the edge case where there are only two faces
-    if len(dist_face_map) == 2:
-        if selected_index == 0:
-            is_min = True
-        elif selected_index == len(dist_face_map) - 1:
-            is_max = True
-
-    # Cover the case of the index being a true max or min, in which case you do not need an index
-    if selected_index == 0 or selected_index == len(dist_face_map) - 1:
+    # Determine whether there is a min or max
+    if selected_index == 0:
         selected_index = None
-    else:
         is_min = True
+    elif selected_index == len(dist_face_map) - 1:
+        selected_index = None
+        is_max = True
 
     # Because of the way CadQuery selector indexing works, we have to make the index negative
     if selected_index != None:
         selected_index += 1
         selected_index = -selected_index
+
+    # We have to have a min if there is a selector index
+    if (is_min == None and is_max == None) and selected_index != None:
+        is_min = True
 
     return (is_min, is_max, selected_index)
 
