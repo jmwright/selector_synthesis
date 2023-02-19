@@ -11,3 +11,8 @@ Research has already been done on selector synthesis via a decision tree method,
 * [Video covering the original paper](https://www.youtube.com/watch?v=IZtSshkwHRc)
 * [First presentation video on research](https://www.youtube.com/watch?v=GyEUjV6oJOQ)
 * [Second presentation video on research](https://www.youtube.com/watch?v=xF8arSFKI1k)
+
+
+## Prerequisites
+* [CadQuery](https://github.com/CadQuery/cadquery)
+* [pytest](https://docs.pytest.org/en/6.2.x/getting-started.html)
